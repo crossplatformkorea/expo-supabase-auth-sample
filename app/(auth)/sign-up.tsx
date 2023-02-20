@@ -1,12 +1,12 @@
 import styled from '@emotion/native';
-import {Button, EditText} from 'dooboo-ui';
+import {Button, EditText, Icon} from 'dooboo-ui';
 import {Link, useRouter} from 'expo-router';
 import type {ReactElement} from 'react';
 import {useState} from 'react';
 import {Body1, Heading1} from '../../src/uis/Typography';
 import {getString} from '../../STRINGS';
 
-import {View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import {supabase} from '../../src/supabase';
 import {handleError} from '../../src/utils/error';
 
@@ -28,8 +28,8 @@ const InputWrapper = styled.View`
   margin-bottom: 24px;
 `;
 
-const ErrorMessage = styled(Body1)`
-  color: ${({theme}) => theme.text.validation};
+const PasswordInputWrapper = styled.View`
+  position: relative;
 `;
 
 export default function SignIn(): ReactElement {
@@ -37,14 +37,15 @@ export default function SignIn(): ReactElement {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSignIn = async (): Promise<void> => {
+  const handleSignUp = async (): Promise<void> => {
     setLoading(true);
 
     try {
-      const {error} = await supabase.auth.signInWithPassword({
+      const {error} = await supabase.auth.signUp({
         email,
         password,
       });
@@ -52,6 +53,8 @@ export default function SignIn(): ReactElement {
       if (error) {
         throw error;
       }
+
+      router.replace('/(auth)/sign-in');
     } catch (error) {
       const errorMsg = handleError(error);
 
@@ -61,15 +64,15 @@ export default function SignIn(): ReactElement {
     }
   };
 
-  const navigatorToSignUp = (): void => {
-    router.push('./sign-up');
+  const handleShowPassword = (): void => {
+    setShowPassword((prev) => !prev);
   };
 
   return (
     <Container>
-      <Heading1>{getString('LOGIN')}</Heading1>
-      <StyledLink href="/" style={{marginBottom: 30}}>
-        <Body1>{getString('NAVIGATE', {name: 'Home'})}</Body1>
+      <Heading1>{getString('SIGNUP')}</Heading1>
+      <StyledLink href="./sign-in" style={{marginBottom: 30}}>
+        <Body1>{getString('NAVIGATE', {name: getString('LOGIN')})}</Body1>
       </StyledLink>
 
       <InputWrapper>
@@ -81,35 +84,35 @@ export default function SignIn(): ReactElement {
           onChangeText={setEmail}
         />
         <View style={{height: 24}} />
-        <EditText
-          label={getString('PASSWORD')}
-          placeholder={getString('PASSWORD')}
-          editable={!loading}
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
+        <PasswordInputWrapper>
+          <EditText
+            label={getString('PASSWORD')}
+            placeholder={getString('PASSWORD')}
+            editable={!loading}
+            secureTextEntry={!showPassword}
+            value={password}
+            onChangeText={setPassword}
+          />
+          <Pressable
+            style={{position: 'absolute', right: 0, top: '50%', opacity: 0.7}}
+            onPress={handleShowPassword}
+          >
+            <Icon name="Lock" size={16} />
+          </Pressable>
+        </PasswordInputWrapper>
       </InputWrapper>
-
       {errorMessage ? (
-        <ErrorMessage style={{marginBottom: 12}}>
+        <View style={{marginBottom: 12}}>
           <Body1>{errorMessage}</Body1>
-        </ErrorMessage>
+        </View>
       ) : null}
 
-      <Button
-        text={getString('LOGIN')}
-        style={{width: '50%', maxWidth: 400, marginBottom: 20}}
-        loading={loading}
-        disabled={loading}
-        onPress={handleSignIn}
-      />
       <Button
         text={getString('SIGNUP')}
         disabled={loading}
         color={'success'}
         style={{width: '50%', maxWidth: 400}}
-        onPress={navigatorToSignUp}
+        onPress={handleSignUp}
       />
     </Container>
   );

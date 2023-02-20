@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import type {ConfigContext, ExpoConfig} from '@expo/config';
 
 export default ({config}: ConfigContext): ExpoConfig => ({
@@ -14,6 +15,11 @@ export default ({config}: ConfigContext): ExpoConfig => ({
     image: './assets/splash.png',
     resizeMode: 'contain',
     backgroundColor: '#ffffff',
+  },
+  extra: {
+    SUPABASE_URL: process.env.SUPABASE_URL,
+    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
+    SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY,
   },
   updates: {
     fallbackToCacheTimeout: 0,

@@ -4,6 +4,7 @@
   "EMAIL": "Email",
   "PASSWORD": "Password",
   "SIGNUP": "SIGN UP",
+  "LOGOUT": "Log out",
   "FORGOT_PW": "Forgot password?",
   "NAVIGATE": "Navigate to %{name}",
   "CHANGE_THEME": "Change theme",
