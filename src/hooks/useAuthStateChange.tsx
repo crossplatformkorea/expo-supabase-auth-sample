@@ -8,6 +8,7 @@ export function useAuthStateChange(): void {
   useEffect(() => {
     supabase.auth.onAuthStateChange((e, session) => {
       if (e === 'SIGNED_IN') {
+        console.log('로그인 됨');
         setUser({email: session?.user.email || ''});
       }
 
