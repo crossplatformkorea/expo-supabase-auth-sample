@@ -1,5 +1,3 @@
-import 'react-native-url-polyfill/auto';
-
 import * as SplashScreen from 'expo-splash-screen';
 import {useCallback, useEffect, useState} from 'react';
 import Icons from '../src/utils/Icons';
@@ -17,6 +15,7 @@ import type {StyleProp, ViewStyle} from 'react-native';
 import {Platform} from 'react-native';
 import {useAppContext} from '../src/providers/AppProvider';
 import {useAuthStateChange} from '../src/hooks/useAuthStateChange';
+import {useWebAuth} from '../src/hooks/useWebAuth';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -37,6 +36,7 @@ function App(): React.ReactElement | null {
   const [appIsReady, setAppIsReady] = useState(false);
 
   useAuthStateChange();
+  useWebAuth();
 
   const safeAreaStyles: StyleProp<ViewStyle> = [
     onMobile && {paddingTop: Math.max(insets.top, 20)},

@@ -1,18 +1,19 @@
-import 'react-native-url-polyfill/auto';
-
-import styled from '@emotion/native';
+import {Body1, Heading1} from '../../src/uis/Typography';
 import {Button, EditText} from 'dooboo-ui';
 import {Link, useRouter} from 'expo-router';
-import type {ReactElement} from 'react';
-import {useState} from 'react';
-import {Body1, Heading1} from '../../src/uis/Typography';
-import {getString} from '../../STRINGS';
-import {makeRedirectUri, startAsync} from 'expo-auth-session';
+import {View} from 'react-native';
 
-import {Linking, View} from 'react-native';
-import {supabase} from '../../src/supabase';
+import type {ReactElement} from 'react';
+import {getString} from '../../STRINGS';
 import {handleError} from '../../src/utils/error';
-import {SUPABASE_URL} from '../../config';
+import styled from '@emotion/native';
+import {supabase} from '../../src/supabase';
+import {useState} from 'react';
+import * as WebBrowser from 'expo-web-browser';
+import SocialSignInButton from '../../src/uis/SocialButton';
+
+/* For web */
+WebBrowser.maybeCompleteAuthSession();
 
 const Container = styled.View`
   flex: 1;
@@ -41,10 +42,6 @@ const ErrorMessage = styled(Body1)`
   color: ${({theme}) => theme.text.validation};
 `;
 
-const redirectUrl = makeRedirectUri({
-  path: '/auth/callback',
-});
-
 export default function SignIn(): ReactElement {
   const router = useRouter();
 
@@ -64,48 +61,6 @@ export default function SignIn(): ReactElement {
 
       if (error) {
         throw error;
-      }
-    } catch (error) {
-      const errorMsg = handleError(error);
-
-      setErrorMessage(errorMsg);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSignInWithOAuth = async (provider: 'google'): Promise<void> => {
-    setLoading(true);
-
-    try {
-      // const response = await startAsync({
-      //   authUrl: `${SUPABASE_URL}/auth/v1/authorize?provider=${provider}&redirect_to=${redirectUrl}`,
-      //   returnUrl: redirectUrl,
-      // });
-      // if (response.type === 'success') {
-      //   console.log('성공', response.params);
-      // }
-      const {data, error} = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: redirectUrl,
-        },
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      const authUrl = data.url;
-
-      if (!authUrl) {
-        throw new Error('authUrl not found');
-      }
-
-      const response = await startAsync({authUrl, returnUrl: redirectUrl});
-
-      if (response.type === 'success') {
-        await Linking.openURL(response.url);
       }
     } catch (error) {
       const errorMsg = handleError(error);
@@ -160,12 +115,12 @@ export default function SignIn(): ReactElement {
           onPress={handleSignIn}
         />
         <View style={{height: 12}} />
-        <Button
-          text={getString('LOGIN_WITH', {name: 'google'})}
-          color="secondary"
-          loading={loading}
-          disabled={loading}
-          onPress={() => handleSignInWithOAuth('google')}
+        <SocialSignInButton
+          provider="google"
+          text={getString('LOGIN_WITH', {name: 'Google'})}
+          onError={(err) => {
+            handleError(err);
+          }}
         />
         <View style={{height: 12}} />
         <Button

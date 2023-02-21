@@ -1,4 +1,9 @@
-import 'react-native-url-polyfill/auto';
+import {Platform} from 'react-native';
+import {setupURLPolyfill} from 'react-native-url-polyfill';
+
+if (Platform.OS !== 'web') {
+  setupURLPolyfill();
+}
 
 import {SUPABASE_ANON_KEY, SUPABASE_URL} from '../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
