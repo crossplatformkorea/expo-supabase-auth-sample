@@ -1,9 +1,10 @@
+import 'dotenv/config';
 import type {ConfigContext, ExpoConfig} from '@expo/config';
 
 export default ({config}: ConfigContext): ExpoConfig => ({
   ...config,
   name: 'dooboo',
-  slug: 'dooboo-expo-router',
+  slug: 'dooboo-expo-auth',
   privacy: 'public',
   platforms: ['ios', 'android', 'web'],
   version: '1.0.0',
@@ -20,7 +21,13 @@ export default ({config}: ConfigContext): ExpoConfig => ({
   },
   assetBundlePatterns: ['**/*'],
   userInterfaceStyle: 'automatic',
-  scheme: 'doobooexporouter',
+  scheme: 'expoauth',
+  extra: {
+    FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
+    FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
+    FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
+    GOOGLE_EXPO_ID: process.env.GOOGLE_EXPO_ID,
+  },
   ios: {
     supportsTablet: true,
     infoPlist: {

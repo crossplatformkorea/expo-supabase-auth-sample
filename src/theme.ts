@@ -19,6 +19,7 @@ export const colors = {
   apple: '#151E22',
   google: '#E04238',
   facebook: '#345997',
+  github: '#151E22',
 };
 
 export type Colors = typeof colors;

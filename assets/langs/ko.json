@@ -1,6 +1,8 @@
 {
   "HELLO": "안녕하세요",
   "LOGIN": "로그인",
+  "LOGIN_WITH": "%{name} 로그인",
+  "LOGOUT": "로그아웃",
   "EMAIL": "이메일",
   "PASSWORD": "패스워드",
   "SIGNUP": "회원가입",

@@ -1,6 +1,8 @@
 {
   "HELLO": "Hello",
   "LOGIN": "Login",
+  "LOGIN_WITH": "Login with %{name}",
+  "LOGOUT": "Log out",
   "EMAIL": "Email",
   "PASSWORD": "Password",
   "SIGNUP": "SIGN UP",
