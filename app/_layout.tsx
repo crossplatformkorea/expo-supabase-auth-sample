@@ -14,6 +14,7 @@ import StatusBarBrightness from 'dooboo-ui/uis/StatusbarBrightness';
 import type {StyleProp, ViewStyle} from 'react-native';
 import {Platform} from 'react-native';
 import {useAppContext} from '../src/providers/AppProvider';
+import {useAuthStateChange} from '../src/hooks/useAuthStateChange';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -31,6 +32,8 @@ function App(): React.ReactElement | null {
 
   const insets = useSafeAreaInsets();
   const [assets] = useAssets(Icons);
+  useAuthStateChange();
+
   const [appIsReady, setAppIsReady] = useState(false);
 
   const safeAreaStyles: StyleProp<ViewStyle> = [
