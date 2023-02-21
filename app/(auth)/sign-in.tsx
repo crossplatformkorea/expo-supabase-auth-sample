@@ -1,7 +1,7 @@
 import {Body1, Heading1} from '../../src/uis/Typography';
 import {Button, EditText} from 'dooboo-ui';
 import {Link, useRouter} from 'expo-router';
-import {View} from 'react-native';
+import {Platform, View} from 'react-native';
 
 import type {ReactElement} from 'react';
 import {getString} from '../../STRINGS';
@@ -28,13 +28,13 @@ const StyledLink = styled(Link)`
 `;
 
 const InputWrapper = styled.View`
-  width: 70%;
+  width: 85%;
   max-width: 600px;
   margin-bottom: 24px;
 `;
 
 const ButtonWrapper = styled.View`
-  width: 60%;
+  width: 80%;
   max-width: 500px;
 `;
 
@@ -115,6 +115,13 @@ export default function SignIn(): ReactElement {
           onPress={handleSignIn}
         />
         <View style={{height: 12}} />
+        <Button
+          text={getString('SIGNUP')}
+          disabled={loading}
+          color={'success'}
+          onPress={navigatorToSignUp}
+        />
+        <View style={{height: 12}} />
         <SocialSignInButton
           provider="google"
           text={getString('LOGIN_WITH', {name: 'Google'})}
@@ -123,12 +130,33 @@ export default function SignIn(): ReactElement {
           }}
         />
         <View style={{height: 12}} />
-        <Button
-          text={getString('SIGNUP')}
-          disabled={loading}
-          color={'success'}
-          onPress={navigatorToSignUp}
+        <SocialSignInButton
+          provider="facebook"
+          text={getString('LOGIN_WITH', {name: 'Facebook'})}
+          onError={(err) => {
+            handleError(err);
+          }}
         />
+        <View style={{height: 12}} />
+        <SocialSignInButton
+          provider="github"
+          text={getString('LOGIN_WITH', {name: 'Github'})}
+          onError={(err) => {
+            handleError(err);
+          }}
+        />
+        {Platform.OS !== 'android' ? (
+          <>
+            <View style={{height: 12}} />
+            <SocialSignInButton
+              provider="apple"
+              text={getString('LOGIN_WITH', {name: 'Apple'})}
+              onError={(err) => {
+                handleError(err);
+              }}
+            />
+          </>
+        ) : null}
       </ButtonWrapper>
     </Container>
   );
