@@ -33,6 +33,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2020",
+    "useUnknownInCatchVariables": true,
     "typeRoots": [
       "expo-router/ts-declarations",
       "./@types",

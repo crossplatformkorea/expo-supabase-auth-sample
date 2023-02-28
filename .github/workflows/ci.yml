@@ -13,13 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: expo/expo-github-action@v6
+      - uses: expo/expo-github-action@v8
         with:
           expo-version: 4.x
           # token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install modules
-        run: yarn install --immutable
+        run: yarn
 
       - name: Check linting
         run: yarn lint
@@ -31,7 +31,7 @@ jobs:
         run: yarn test --coverage --detectOpenHandles --forceExit
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           # token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/

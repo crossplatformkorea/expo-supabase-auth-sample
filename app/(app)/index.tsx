@@ -1,9 +1,9 @@
 import {Button, useDooboo} from 'dooboo-ui';
 import type {ReactElement} from 'react';
+
 import {getString} from '../../STRINGS';
 
 import styled from '@emotion/native';
-import {useRouter} from 'expo-router';
 import {View} from 'react-native';
 import {useAppContext} from '../../src/providers/AppProvider';
 import {Heading1} from '../../src/uis/Typography';
@@ -27,7 +27,6 @@ type Props = {};
 
 export default function Root({}: Props): ReactElement {
   const {changeThemeType} = useDooboo();
-  const router = useRouter();
 
   const {
     state: {user},
@@ -38,19 +37,12 @@ export default function Root({}: Props): ReactElement {
       <View style={{marginTop: 80}}>
         {user ? (
           <View style={{marginBottom: 30}}>
-            <Heading1>Welcome {user.displayName}!</Heading1>
+            <Heading1>Welcome {user.email}!</Heading1>
           </View>
         ) : null}
       </View>
 
       <ButtonWrapper>
-        <Button
-          onPress={(): void => {
-            router.push('/(auth)/sign-in');
-          }}
-          text={getString('LOGIN')}
-        />
-        <View style={{marginTop: 12}} />
         <Button
           testID="btn-theme"
           onPress={(): void => changeThemeType()}

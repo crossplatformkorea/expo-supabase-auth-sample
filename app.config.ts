@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import type {ConfigContext, ExpoConfig} from '@expo/config';
 
 export default ({config}: ConfigContext): ExpoConfig => ({
@@ -9,11 +10,16 @@ export default ({config}: ConfigContext): ExpoConfig => ({
   version: '1.0.0',
   orientation: 'default',
   icon: './assets/icon.png',
-  plugins: ['sentry-expo'],
+  plugins: ['sentry-expo', 'expo-localization'],
   splash: {
     image: './assets/splash.png',
     resizeMode: 'contain',
     backgroundColor: '#ffffff',
+  },
+  extra: {
+    SUPABASE_URL: process.env.SUPABASE_URL,
+    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
+    SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY,
   },
   updates: {
     fallbackToCacheTimeout: 0,
