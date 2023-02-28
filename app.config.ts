@@ -19,7 +19,6 @@ export default ({config}: ConfigContext): ExpoConfig => ({
   extra: {
     SUPABASE_URL: process.env.SUPABASE_URL,
     SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
-    SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY,
   },
   updates: {
     fallbackToCacheTimeout: 0,

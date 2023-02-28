@@ -5,30 +5,36 @@
 [![CI](https://github.com/dooboolab/dooboo-expo-router/actions/workflows/ci.yml/badge.svg)](https://github.com/dooboolab/dooboo-expo-router/actions/workflows/ci.yml)
 
 ### 프로젝트 포인트
+
 1. expo router 사용법
 2. expo router를 사용한 인증 흐름 구현 방법
 3. expo 환경에서 supabase를 통해 `android`, `ios`, `web`에서 동작하는 Oauth 인증 방법
 
-----
+---
 
 ## 프로젝트 세팅
 
 #### 환경 변수 값 얻는 법
+
 - [Supabase](https://supabase.com/)에서 프로젝트를 생성한 후, 프로젝트 대시보드로 이동
 - 좌측 하단의 `Project Settings`를 클릭한 후, `API` 탭을 선택
-- 해당 화면에서 `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_KEY`를 얻을 수 있다.
+- 해당 화면에서 `SUPABASE_URL`, `SUPABASE_ANON_KEY`를 얻을 수 있다.
 
 1. `env` 파일 생성 후 환경 변수 입력
-  ```sh
-  cp .env.sample .env
-  ```
-    
+
+```sh
+cp .env.sample .env
+```
+
 2. 프로젝트 시작
-  ```sh
-  yarn start
-  ```
-#### *** 만약 Supabase 프로젝트로 소셜 로그인을 연동하지 않았다면, `Email/Password` 로그인만 가능하다.
-----
+
+```sh
+yarn start
+```
+
+#### \*\*\* 만약 Supabase 프로젝트로 소셜 로그인을 연동하지 않았다면, `Email/Password` 로그인만 가능하다.
+
+---
 
 ## Supabase를 통한 로그인 Overview
 
@@ -37,20 +43,24 @@
 - expo 환경에서 supabase를 통한 `OAuth` 인증을 연결하면서 생겨나는 버그로 인한 개발 맥락은 [PR](https://github.com/crossplatformkorea/expo-supabase-auth-sample/pull/1)을 참고한다.
 
 ### 모바일(Android, Ios)
- 모바일의 경우 [expo-auth-session](https://docs.expo.dev/versions/latest/sdk/auth-session/)을 사용하여 `web base` 인증을 진행한다. `expo-auth-session`은 `expo-web-broswer`를 사용하여 `supabase`에 인증 요청을 보내고, 그 결과를 받아서 앱으로 전해준다.
+
+모바일의 경우 [expo-auth-session](https://docs.expo.dev/versions/latest/sdk/auth-session/)을 사용하여 `web base` 인증을 진행한다. `expo-auth-session`은 `expo-web-broswer`를 사용하여 `supabase`에 인증 요청을 보내고, 그 결과를 받아서 앱으로 전해준다.
 
 ### 웹
- `supabase`에서 제공하는 API를 사용하여 로그인을 진행한다.
+
+`supabase`에서 제공하는 API를 사용하여 로그인을 진행한다.
 
 ### 일반적인 OAuth 기반 인증 개발 흐름
+
 1. 서비스 제공 업체 사이트(ex. google, facebook)에 가서 계정과 프로젝트를 생성
-    - 서비스에 따라 앱 Url, 개인정보 처리 Url 등을 요구함
+   - 서비스에 따라 앱 Url, 개인정보 처리 Url 등을 요구함
 2. 생성한 프로젝트에 클라이언트로부터 `OAuth` 요청을 허용할 `URL` 을 입력 해준다. 보통 `Authorized Redirection URI` (`승인된 리디렉션 URI`) 등과 같은 명칭을 가지고 있다.
 3. `URI` 등의 정보를 입력하면 `CLIENT_ID` 및 `CLIENT_SECRET` 를 얻을 수 있다. 이 값은 `Oauth Provider`에 요청을 보낼 때 사용된다. `Supabase` 와 같은 `Saas` 를 이용할 경우에는 해당 서비스에 `CLIENT_ID` 와 `CLIENT_SECRET` 을 입력해주고 `OAuth` 요청을 위임할 수 있다.
 
-
 ---
+
 ### Supabase로 소셜 로그인 설정하는 방법
+
 - 소셜 로그인을 위해서는 `Supabase`에 Social Provider를 추가해야한다.
 
 <details>
@@ -77,12 +87,10 @@
   </ol>
 </details>
 
-
-
-
 ## 소셜 로그인 제공업체 별 Credential 생성하는 방법
 
 ### Google 로그인
+
 <details>
   <summary>펼치기</summary>
   <ol>
@@ -137,8 +145,8 @@
   <ol>
 </details>
 
-
 ### Facebook 로그인
+
 <details>
   <summary>펼치기</summary>
   <ol>
@@ -178,8 +186,8 @@
   </ol>
 </details>
 
-    
 ### Github 로그인
+
 <details>
   <summary>펼치기</summary>
   <ol>
@@ -215,12 +223,13 @@
   </ol>
 </details>
 
-
 ### Apple 로그인
+
 - ⚠️ 애플로그인은 애플 프로그램에 가입되어 있지 않다면 진행할 수 없음
 - [참고 블로그](https://medium.com/identity-beyond-borders/how-to-configure-sign-in-with-apple-77c61e336003)
-    
+
 #### 참고 사항
+
 - Apple 로그인은 과정이 가장 복잡하기 때문에 순서대로 하나씩 따라가는 것을 추천함.
 - 3번 과정에서 얻은 `serviceId`와 마지막 5번 과정에서 얻은 `client_secret`을 Supabase 소셜 로그인 설정하는 방법을 참고하여 값을 설정해주면 된다.
 
@@ -368,17 +377,11 @@
       )
       puts token
       ```
-  
-  4. 스크립트를 작성했다면 아래 명령어로 토큰을 생성 해준다.
-  ```ruby
-  secret_gen.rb > client_secret.txt
-  ```
+
+4. 스크립트를 작성했다면 아래 명령어로 토큰을 생성 해준다.
+
+```ruby
+secret_gen.rb > client_secret.txt
+```
+
 </details>
-    
-    
-    
-    
-    
-
- 
-
