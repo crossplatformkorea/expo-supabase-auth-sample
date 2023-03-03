@@ -40,7 +40,7 @@ yarn start
 
 <img width=500 src="https://user-images.githubusercontent.com/58724686/220531204-86fbe5b3-a08c-42f5-9438-56150d7e2b2d.png"/>
 
-- expo 환경에서 supabase를 통한 `OAuth` 인증을 연결하면서 생겨나는 버그로 인한 개발 맥락은 [PR](https://github.com/crossplatformkorea/expo-supabase-auth-sample/pull/1)을 참고한다.
+- expo router 환경에서 supabase를 통한 `OAuth` 인증을 연결하면서 발생하는 버그로 인해 몇 가지 대응 코드가 필요하다. [PR](https://github.com/crossplatformkorea/expo-supabase-auth-sample/pull/1) 참고
 
 ### 모바일(Android, Ios)
 
@@ -381,7 +381,7 @@ yarn start
 4. 스크립트를 작성했다면 아래 명령어로 토큰을 생성 해준다.
 
 ```ruby
-secret_gen.rb > client_secret.txt
+ruby secret_gen.rb > client_secret.txt
 ```
 
 </details>
